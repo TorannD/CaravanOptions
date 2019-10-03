@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<ModMetaData>
+	<name>CaravanOptions</name>
+	<author>Torann</author>
+	<targetVersion>1.0.0</targetVersion>
+	<description>Version 1.0	
+Ever felt like it takes too long to walk across the road to a neighbor village to ask for a cup of sugar?  This mod is for you!
+
+Caravan Options adds mod settings that adjust caravan rates applied on the world map:
+-Global movement speed multiplier
+-Separate movement reductions per road type
+-Adjust travel speed bonus for light weight caravans
+-Allows movement when caravan capacity limit is exceeded
+-Adjust foraging rates
+
+How this mod works:
+All variables start with the default values and there is a reset button if you wish to revert to them at any point.
+Mod applies adjustments at run-time with harmony patches, so this mod can be added, removed, or adjusted at any point without issues.
+
+Default tile values apply a 50% reduction for all road types - now you can adjust the costs as you see fit. A dirt trail can be adjusted to provide
+less of a movement bonus as an asphalt highway.
+
+If a caravan is carrying very little weight, it will travel at an increased speed - this can be adjusted to provide more (or less) of a bonus travel speed.
+
+If a caravan exceeds max carrying capacity, it normally stops dead in its tracks.  This can be adjusted to allow caravans to continue to move
+above capacity limits, but at speeds below 100%.
+
+Lastly, if you just feel that caravan movement rates are too slow (or too fast), you can adjust a global multiplier to change caravan movement speeds.
+
+All options, or none, can be applied as desired.
+
+All pawn travel speeds, capacity limits, and game behavior is left intact - the mod only adjusts multipliers of existing values, which means this mod should 
+be compatible with any mod that adjusts or adds biome speeds, pawn capacities, or new or modified road types.	
+	</description>
+</ModMetaData>

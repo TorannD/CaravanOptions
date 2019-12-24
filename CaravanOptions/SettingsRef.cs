@@ -14,5 +14,7 @@ namespace CaravanOptions
         public float foragingMultiplier = Settings.Instance.foragingMultiplier;
         public float massUsageBonus = Settings.Instance.massUsageBonus;
         public float massCapUpperLimit = Settings.Instance.massCapUpperLimit;
+        //roads of the rim
+        public float glitterRoad = Settings.Instance.glitterRoadCost;
     }
 }

@@ -49,6 +49,8 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="CompCaravanOptions.cs" />
+    <Compile Include="ModCheck\Validate.cs" />
     <Compile Include="SettingsRef.cs" />
     <Compile Include="Settings.cs" />
     <Compile Include="Controller.cs" />

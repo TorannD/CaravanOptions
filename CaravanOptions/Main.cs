@@ -20,7 +20,17 @@ namespace CaravanOptions
 
             HarmonyInstance harmonyInstance = HarmonyInstance.Create("rimworld.torann.CaravanOptions");
             harmonyInstance.Patch(AccessTools.Method(typeof(Caravan), "get_ImmobilizedByMass", null, null), null, new HarmonyMethod(typeof(Main), "Get_ImmobilizedByMass"), null);
+            harmonyInstance.Patch(AccessTools.Method(typeof(Caravan), "get_NightResting", null, null), null, new HarmonyMethod(typeof(Main), "Get_NightResting_Forced"), null);
             harmonyInstance.PatchAll(Assembly.GetExecutingAssembly());
+        }
+
+        public static void Get_NightResting_Forced(Caravan __instance, ref bool __result)
+        {
+            CompCaravanOptions comp = __instance.GetComponent<CompCaravanOptions>();
+            if(comp != null && comp.forceNightMove)
+            {                
+                __result = false;
+            }
         }
 
         public static void Get_ImmobilizedByMass(Caravan __instance, ref bool __result)
@@ -214,25 +224,29 @@ namespace CaravanOptions
                     {
                         if (roads[i].neighbor == toTile)
                         {
-                            if (roads[i].road.defName == "DirtPath")
+                            if (roads[i].road.defName == "DirtPath" || roads[i].road.defName == "DirtPathBuilt")
                             {
                                 __result = settingsRef.dirtPath;
                             }
-                            if (roads[i].road.defName == "DirtRoad")
+                            if (roads[i].road.defName == "DirtRoad" || roads[i].road.defName == "DirtRoadBuilt")
                             {
                                 __result = settingsRef.dirtRoad;
                             }
-                            if (roads[i].road.defName == "StoneRoad")
+                            if (roads[i].road.defName == "StoneRoad" || roads[i].road.defName == "StoneRoadBuilt")
                             {
                                 __result = settingsRef.stoneRoad;
                             }
-                            if (roads[i].road.defName == "AncientAsphaltRoad")
+                            if (roads[i].road.defName == "AncientAsphaltRoad" || roads[i].road.defName == "AsphaltRoad")
                             {
                                 __result = settingsRef.asphaltRoad;
                             }
                             if (roads[i].road.defName == "AncientAsphaltHighway")
                             {
                                 __result = settingsRef.asphaltHighway;
+                            }
+                            if (roads[i].road.defName == "GlitterRoad")
+                            {
+                                __result = settingsRef.glitterRoad;
                             }
                             multiplier = __result;
                         }

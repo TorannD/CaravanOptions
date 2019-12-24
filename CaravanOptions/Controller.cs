@@ -20,6 +20,7 @@ namespace CaravanOptions
 		{
             Controller.Instance = this;
             Settings.Instance = base.GetSettings<Settings>();
+            ModCheck.Validate.RoadsOfTheRim.IsInitialized();
         }
 
         public override void DoSettingsWindowContents(Rect canvas)
@@ -60,9 +61,23 @@ namespace CaravanOptions
             num++;
             Rect rowRect6 = UIHelper.GetRowRect(rowRect5, rowHeight, num);
             Settings.Instance.asphaltHighwayCost = Widgets.HorizontalSlider(rowRect6, Settings.Instance.asphaltHighwayCost, .01f, 1f, false, "AsphaltHighwayCost".Translate() + " " + Settings.Instance.asphaltHighwayCost, ".01", "1", .01f);
-
+            Rect rowRect61 = new Rect();
+            if (ModCheck.Validate.RoadsOfTheRim.IsInitialized())
+            {
+                num++;
+                rowRect61 = UIHelper.GetRowRect(rowRect6, rowHeight, num);
+                Settings.Instance.glitterRoadCost = Widgets.HorizontalSlider(rowRect61, Settings.Instance.glitterRoadCost, .01f, 1f, false, "GlitterRoadCost".Translate() + " " + Settings.Instance.glitterRoadCost, ".01", "1", .01f);
+            }
             num += 2;
-            Rect rowRect7 = UIHelper.GetRowRect(rowRect6, rowHeight, num);
+            Rect rowRect7 = new Rect();
+            if(ModCheck.Validate.RoadsOfTheRim.IsInitialized())                
+            {
+                rowRect7 = UIHelper.GetRowRect(rowRect61, rowHeight, num);
+            }
+            else
+            {
+                rowRect7 = UIHelper.GetRowRect(rowRect6, rowHeight, num);
+            }
             Settings.Instance.massUsageBonus = Widgets.HorizontalSlider(rowRect7, Settings.Instance.massUsageBonus, 0.1f, 5f, false, "CO_MassUsageBonus".Translate() + " " + Settings.Instance.massUsageBonus, ".1", "5", .1f);
             num++;
             Rect rowRect9 = UIHelper.GetRowRect(rowRect7, rowHeight, num);
@@ -98,6 +113,7 @@ namespace CaravanOptions
                 Settings.Instance.foragingMultiplier = 1f;
                 Settings.Instance.massUsageBonus = 2f;
                 Settings.Instance.massCapUpperLimit = 1f;
+                Settings.Instance.glitterRoadCost = .25f;
             }
         }
 

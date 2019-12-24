@@ -4,7 +4,7 @@
 	<name>CaravanOptions</name>
 	<author>Torann</author>
 	<targetVersion>1.0.0</targetVersion>
-	<description>Version 1.0	
+	<description>Version 1.1
 Ever felt like it takes too long to walk across the road to a neighbor village to ask for a cup of sugar?  This mod is for you!
 
 Caravan Options adds mod settings that adjust caravan rates applied on the world map:
@@ -13,6 +13,8 @@ Caravan Options adds mod settings that adjust caravan rates applied on the world
 -Adjust travel speed bonus for light weight caravans
 -Allows movement when caravan capacity limit is exceeded
 -Adjust foraging rates
+-Force caravans to travel at night
+*Compatible with Roads of the Rim mod
 
 How this mod works:
 All variables start with the default values and there is a reset button if you wish to revert to them at any point.

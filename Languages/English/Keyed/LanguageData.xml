@@ -10,6 +10,8 @@
 	<AsphaltHighwayCost>Asphalt Highway</AsphaltHighwayCost>
 	<TerrainAffectsMovement>Pawn movement rates apply to terrain?</TerrainAffectsMovement>
 	
+	<GlitterRoadCost>Glitter Road</GlitterRoadCost>
+	
 	<CO_MassUsageBonus>Mass capacity travel speed bonus</CO_MassUsageBonus>
 	<CO_HardCapImmobilize>Immobilized at carrying capacity?</CO_HardCapImmobilize>
 	<CO_ImmobilizeCap>Immobilize caravan at {0}x max mass capacity</CO_ImmobilizeCap>
@@ -26,5 +28,10 @@ max capacity, but at a reduced speed relative to the weight carried.</CO_Immobil
 	
 	<CO_SettingsNote>**All settings use default game values unless adjusted.
 Using the "Reset" button at the bottom will restore the default settings.</CO_SettingsNote>
+
+	<CO_ForceNightMove>Travel At Night</CO_ForceNightMove>
+	<CO_ForceNightMoveDesc>Forces the caravan to travel at night instead of resting. Caravan members will not recover rest or joy and may become more susceptable to mental breaks.</CO_ForceNightMoveDesc>
+	
+	
 
 </LanguageData>

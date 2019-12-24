@@ -17,6 +17,9 @@ namespace CaravanOptions
         public float massUsageBonus = 2f;
         public float massCapUpperLimit = 1f;
 
+        //roads of the rim check
+        public float glitterRoadCost = .25f;
+
         public Settings()
         {
             Settings.Instance = this;
@@ -33,6 +36,9 @@ namespace CaravanOptions
             Scribe_Values.Look<float>(ref this.foragingMultiplier, "foragingMultiplier", 1f, false);
             Scribe_Values.Look<float>(ref this.massUsageBonus, "massUsageBonus", 2f, false);
             Scribe_Values.Look<float>(ref this.massCapUpperLimit, "massCapUpperLimit", 1f, false);
+            //roads of the rim
+            Scribe_Values.Look<float>(ref this.glitterRoadCost, "glitterRoadCost", 0.25f, false);
+
         }
     }
 }

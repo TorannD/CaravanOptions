@@ -1,4 +1,4 @@
-﻿using Harmony;
+﻿using HarmonyLib;
 using System;
 using System.Text;
 using System.Reflection;
@@ -17,8 +17,7 @@ namespace CaravanOptions
     {
         static Main()
         {
-
-            HarmonyInstance harmonyInstance = HarmonyInstance.Create("rimworld.torann.CaravanOptions");
+            var harmonyInstance = new Harmony("rimworld.torann.CaravanOptions");
             harmonyInstance.Patch(AccessTools.Method(typeof(Caravan), "get_ImmobilizedByMass", null, null), null, new HarmonyMethod(typeof(Main), "Get_ImmobilizedByMass"), null);
             harmonyInstance.Patch(AccessTools.Method(typeof(Caravan), "get_NightResting", null, null), null, new HarmonyMethod(typeof(Main), "Get_NightResting_Forced"), null);
             harmonyInstance.PatchAll(Assembly.GetExecutingAssembly());
@@ -35,10 +34,16 @@ namespace CaravanOptions
 
         public static void Get_ImmobilizedByMass(Caravan __instance, ref bool __result)
         {
-            SettingsRef settingsRef = new SettingsRef();
-            if (settingsRef.massCapUpperLimit != 1f)
+            int cachedImmobilizedForTicks = Traverse.Create(root: __instance).Field(name: "cachedImmobilizedForTicks").GetValue<int>();
+            if (Find.TickManager.TicksGame - cachedImmobilizedForTicks < 60)
             {
-                __result = ((__instance.MassUsage / settingsRef.massCapUpperLimit) > __instance.MassCapacity);
+                SettingsRef settingsRef = new SettingsRef();
+                if (settingsRef.massCapUpperLimit != 1f)
+                {
+                    __result = ((__instance.MassUsage / settingsRef.massCapUpperLimit) > __instance.MassCapacity);
+                    Traverse.Create(root: __instance).Field(name: "cachedImmobilized").SetValue(__result);
+                    Traverse.Create(root: __instance).Field(name: "cachedImmobilizedForTicks").SetValue(Find.TickManager.TicksGame);
+                }
             }
         }
 

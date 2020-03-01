@@ -38,4 +38,13 @@
 	 </operations>
   </Operation>	
   
+    <!-- Pawns may gain tired thoughts while in a caravan -->
+
+  <Operation Class="PatchOperationAdd">
+    <xpath>*/ThoughtDef[defName = "NeedRest"]</xpath>
+	<value>
+		<validWhileDespawned>true</validWhileDespawned>
+	</value>
+  </Operation>
+  
 </Patch>

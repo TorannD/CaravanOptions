@@ -92,15 +92,20 @@ namespace CaravanOptions
             num++;
             Rect rowRect10 = UIHelper.GetRowRect(rowRect9, rowHeight, num);
             Settings.Instance.foragingMultiplier = Widgets.HorizontalSlider(rowRect10, Settings.Instance.foragingMultiplier, 0.1f, 5f, false, "CO_ForagingMultiplier".Translate() + " " + Settings.Instance.foragingMultiplier, "1", "5", .1f);
-
+            //num++;
+            //Rect rowRect11 = UIHelper.GetRowRect(rowRect10, rowHeight, num);
+            //Widgets.CheckboxLabeled(rowRect11, "CO_CaravanPerformance".Translate(), ref Settings.Instance.overrideTick, false);
+            //num++;
+            //Rect rowRect12 = UIHelper.GetRowRect(rowRect11, rowHeight, num);
+            //Settings.Instance.overrideTickHash = Mathf.RoundToInt(Widgets.HorizontalSlider(rowRect12, Settings.Instance.overrideTickHash, 1, 120, false, "CO_OverrideTickHash".Translate() + " " + Settings.Instance.overrideTickHash, "1", "120", 1));
             num++;
             GUI.contentColor = Color.yellow;
             Text.Font = GameFont.Small;
-            Rect rowRect11 = UIHelper.GetRowRect(rowRect10, rowHeight, num);
-            rowRect11.x += +rect1.width - 36f;
-            rowRect11.y += 18f;
-            rowRect11.width = 64f;
-            reset = Widgets.ButtonText(rowRect11, "RESET", true, false, true);
+            Rect rowRect13 = UIHelper.GetRowRect(rowRect10, rowHeight, num);
+            rowRect13.x += +rect1.width - 36f;
+            rowRect13.y += 18f;
+            rowRect13.width = 64f;
+            reset = Widgets.ButtonText(rowRect13, "RESET", true, false, true);
             if (reset)
             {
                 Settings.Instance.caravanSpeedMultiplier = 1f;
@@ -114,6 +119,9 @@ namespace CaravanOptions
                 Settings.Instance.massUsageBonus = 2f;
                 Settings.Instance.massCapUpperLimit = 1f;
                 Settings.Instance.glitterRoadCost = .25f;
+
+                Settings.Instance.overrideTick = false;
+                Settings.Instance.overrideTickHash = 1;
             }
         }
 

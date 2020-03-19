@@ -18,10 +18,29 @@ namespace CaravanOptions
         static Main()
         {
             var harmonyInstance = new Harmony("rimworld.torann.CaravanOptions");
-            harmonyInstance.Patch(AccessTools.Method(typeof(Caravan), "get_ImmobilizedByMass", null, null), null, new HarmonyMethod(typeof(Main), "Get_ImmobilizedByMass"), null);
+            harmonyInstance.Patch(AccessTools.Method(typeof(Caravan), "get_ImmobilizedByMass", null, null), new HarmonyMethod(typeof(Main), "Get_ImmobilizedByMass"), null, null);
             harmonyInstance.Patch(AccessTools.Method(typeof(Caravan), "get_NightResting", null, null), null, new HarmonyMethod(typeof(Main), "Get_NightResting_Forced"), null);
             harmonyInstance.PatchAll(Assembly.GetExecutingAssembly());
         }
+
+        //[HarmonyPatch(typeof(Caravan), "Tick", null)]
+        //public class CaravanTick_Patch
+        //{
+        //    private static bool Prefix(Caravan __instance)
+        //    {
+        //        SettingsRef settingsRef = new SettingsRef();
+        //        if(settingsRef.overrideTick && __instance.IsHashIntervalTick(settingsRef.overrideTickHash))
+        //        {
+        //            List<WorldObjectComp> comps = Traverse.Create(root: __instance).Field(name: "comps").GetValue<List<WorldObjectComp>>();
+        //            for (int i = 0; i < comps.Count; i++)
+        //            {
+        //                comps[i].CompTick();
+        //            }
+        //            return false;                    
+        //        }
+        //        return true;
+        //    }
+        //}
 
         public static void Get_NightResting_Forced(Caravan __instance, ref bool __result)
         {
@@ -32,19 +51,29 @@ namespace CaravanOptions
             }
         }
 
-        public static void Get_ImmobilizedByMass(Caravan __instance, ref bool __result)
+        public static bool Get_ImmobilizedByMass(Caravan __instance, ref bool __result)
         {
-            int cachedImmobilizedForTicks = Traverse.Create(root: __instance).Field(name: "cachedImmobilizedForTicks").GetValue<int>();
-            if (Find.TickManager.TicksGame - cachedImmobilizedForTicks < 60)
+            CompCaravanOptions comp = __instance.GetComponent<CompCaravanOptions>();
+            if (comp != null)
             {
-                SettingsRef settingsRef = new SettingsRef();
-                if (settingsRef.massCapUpperLimit != 1f)
+                int cachedImmobilizedForTicks = Traverse.Create(root: __instance).Field(name: "cachedImmobilizedForTicks").GetValue<int>();
+                if ((Find.TickManager.TicksGame - cachedImmobilizedForTicks) > 60)
                 {
-                    __result = ((__instance.MassUsage / settingsRef.massCapUpperLimit) > __instance.MassCapacity);
-                    Traverse.Create(root: __instance).Field(name: "cachedImmobilized").SetValue(__result);
                     Traverse.Create(root: __instance).Field(name: "cachedImmobilizedForTicks").SetValue(Find.TickManager.TicksGame);
+                    SettingsRef settingsRef = new SettingsRef();
+                    if (settingsRef.massCapUpperLimit != 1f)
+                    {
+                        comp.immobilized = ((__instance.MassUsage / settingsRef.massCapUpperLimit) > __instance.MassCapacity);
+                    }
+                    else
+                    {
+                        comp.immobilized = (__instance.MassUsage  > __instance.MassCapacity);
+                    }
                 }
+                __result = comp.immobilized;
+                return false;
             }
+            return true;
         }
 
         [HarmonyPatch(typeof(ForagedFoodPerDayCalculator), "GetForagedFoodCountPerInterval", new Type[]

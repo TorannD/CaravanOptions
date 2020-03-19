@@ -17,6 +17,9 @@ namespace CaravanOptions
         public float massUsageBonus = 2f;
         public float massCapUpperLimit = 1f;
 
+        public bool overrideTick = false;
+        public int overrideTickHash = 1;
+
         //roads of the rim check
         public float glitterRoadCost = .25f;
 

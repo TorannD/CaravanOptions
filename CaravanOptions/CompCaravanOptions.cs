@@ -11,6 +11,7 @@ namespace CaravanOptions
     public class CompCaravanOptions : WorldObjectComp
     {
         public bool forceNightMove = false;
+        public bool immobilized = false;
 
         public Caravan ParentCaravan
         {

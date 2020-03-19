@@ -16,5 +16,8 @@ namespace CaravanOptions
         public float massCapUpperLimit = Settings.Instance.massCapUpperLimit;
         //roads of the rim
         public float glitterRoad = Settings.Instance.glitterRoadCost;
+
+        public bool overrideTick = Settings.Instance.overrideTick;
+        public int overrideTickHash = Settings.Instance.overrideTickHash;
     }
 }

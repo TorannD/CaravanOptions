@@ -11,4 +11,3 @@ C:\Program Files (x86)\Steam\steamapps\common\RimWorld\Mods\CaravanOptions\Carav
 E:\Programs\Steam\steamapps\common\RimWorld\Mods\CaravanOptions\v1.1\Assemblies\CaravanOptions.dll
 E:\Programs\Steam\steamapps\common\RimWorld\Mods\CaravanOptions\CaravanOptions\obj\Debug\CaravanOptions.csprojAssemblyReference.cache
 E:\Programs\Steam\steamapps\common\RimWorld\Mods\CaravanOptions\CaravanOptions\obj\Debug\CaravanOptions.csproj.CoreCompileInputs.cache
-E:\Programs\Steam\steamapps\common\RimWorld\Mods\CaravanOptions\CaravanOptions\obj\Debug\CaravanOptions.csproj.CopyComplete

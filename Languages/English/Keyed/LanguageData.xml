@@ -32,6 +32,9 @@ Using the "Reset" button at the bottom will restore the default settings.</CO_Se
 	<CO_ForceNightMove>Travel At Night</CO_ForceNightMove>
 	<CO_ForceNightMoveDesc>Forces the caravan to travel at night instead of resting. Caravan members will not recover rest or joy and may become more susceptable to mental breaks.</CO_ForceNightMoveDesc>
 	
+	<CO_CaravanPerformance>Reduce Caravan Processing</CO_CaravanPerformance>
+	<CO_OverrideTickHash>Caravan cycle frequency</CO_OverrideTickHash>
+	
 	
 
 </LanguageData>

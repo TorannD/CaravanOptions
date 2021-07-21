@@ -20,6 +20,7 @@ namespace CaravanOptions
             var harmonyInstance = new Harmony("rimworld.torann.CaravanOptions");
             harmonyInstance.Patch(AccessTools.Method(typeof(Caravan), "get_ImmobilizedByMass", null, null), new HarmonyMethod(typeof(Main), "Get_ImmobilizedByMass"), null, null);
             harmonyInstance.Patch(AccessTools.Method(typeof(Caravan), "get_NightResting", null, null), null, new HarmonyMethod(typeof(Main), "Get_NightResting_Forced"), null);
+            harmonyInstance.Patch(AccessTools.Method(typeof(Caravan), "get_MassCapacityExplanation", null, null), null, new HarmonyMethod(typeof(Main), "Get_MassCapacityExplanation"), null);
             harmonyInstance.PatchAll(Assembly.GetExecutingAssembly());
         }
 
@@ -41,6 +42,21 @@ namespace CaravanOptions
         //        return true;
         //    }
         //}
+
+        [HarmonyPatch(typeof(CaravanUIUtility), "DrawCaravanInfo", null)]
+        public class DrawCaravanInfo_MassCapacity_Patch
+        {
+            private static bool Prefix(ref CaravanUIUtility.CaravanInfo info, ref CaravanUIUtility.CaravanInfo? info2)
+            {
+                info.massCapacity *= Settings.Instance.massCapUpperLimit;
+                return true;
+            }
+        }
+
+        public static void Get_MassCapacityExplanation(Caravan __instance, ref string __result)
+        {
+            __result += "\n\n" + "CO_MassCapacityMultiplierExplination".Translate(Settings.Instance.massCapUpperLimit.ToString("0.#"));
+        }
 
         public static void Get_NightResting_Forced(Caravan __instance, ref bool __result)
         {
@@ -153,7 +169,7 @@ namespace CaravanOptions
             private static void Postfix(ref float __result)
             {
                 SettingsRef settingsRef = new SettingsRef();
-                __result *= Mathf.RoundToInt(settingsRef.speedMultiplier);
+                __result = __result * settingsRef.speedMultiplier > 0 ? __result * settingsRef.speedMultiplier : __result;
             }
         }
 
@@ -165,81 +181,71 @@ namespace CaravanOptions
             typeof(int?),
             typeof(bool),
             typeof(StringBuilder),
-            typeof(string)
+            typeof(string),
+            typeof(bool)
         })]
         public static class CostToMove_Patch
         {
             [HarmonyPrefix]
-            public static bool CostToMove_Prefix(int caravanTicksPerMove, int start, int end, ref int __result, int? ticksAbs = null, bool perceivedStatic = false, StringBuilder explanation = null, string caravanTicksPerMoveExplanation = null)
+            public static bool CostToMove_Prefix(int caravanTicksPerMove, int start, int end, ref int __result, int? ticksAbs = null, bool perceivedStatic = false, StringBuilder explanation = null, string caravanTicksPerMoveExplanation = null, bool immobile = false)
             {
                 SettingsRef settingsRef = new SettingsRef();
 
-                bool flag = start == end || end == -1;
-                if (!flag)
-                {
-                    if (explanation != null)
-                    {
-                        explanation.Append(caravanTicksPerMoveExplanation);
-                        explanation.AppendLine();
-                    }
-                    StringBuilder stringBuilder = (explanation == null) ? null : new StringBuilder();
-                    float num;
-                    if (perceivedStatic && explanation == null)
-                    {
-                        num = Find.WorldPathGrid.PerceivedMovementDifficultyAt(end);
-                    }
-                    else
-                    {
-                        num = WorldPathGrid.CalculatedMovementDifficultyAt(end, perceivedStatic, ticksAbs, stringBuilder);
-                    }
-                    float roadMovementDifficultyMultiplier = Find.WorldGrid.GetRoadMovementDifficultyMultiplier(start, end, stringBuilder);
-                    if (explanation != null)
-                    {
-                        explanation.AppendLine();
-                        explanation.Append("TileMovementDifficulty".Translate() + ":");
-                        explanation.AppendLine();
-                        explanation.Append(stringBuilder.ToString().Indented("  "));
-                        explanation.AppendLine();
-                        explanation.Append("  = " + (num * roadMovementDifficultyMultiplier).ToString("0.##"));
-                    }
-                    int num2 = (int)((float)caravanTicksPerMove * num * roadMovementDifficultyMultiplier);
-                    num2 = Mathf.Clamp(num2, 1, 30000);
-                    if (settingsRef.speedMultiplier != 1 && explanation != null)
-                    {
-                        explanation.AppendLine();
-                        explanation.AppendLine();
-                        explanation.Append("CO_GlobalMultiplierDesc".Translate() + ":");
-                        explanation.AppendLine();
-                        explanation.Append("  = x" + (settingsRef.speedMultiplier).ToString("0.#"));
-                    }
-                    int num3 = (int)((float)(num2 / settingsRef.speedMultiplier));
-                    if (explanation != null)
-                    {
-                        explanation.AppendLine();
-                        explanation.AppendLine();
-                        explanation.Append("FinalCaravanMovementSpeed".Translate() + ":");
-                        int num4 = Mathf.CeilToInt((float)num3 / 1f);
-                        explanation.AppendLine();
-                        explanation.Append(string.Concat(new string[]
-                        {
-                            "  (",
-                            (60000f / (float)caravanTicksPerMove).ToString("0.#"),
-                            " / ",
-                            (num * roadMovementDifficultyMultiplier).ToString("0.#"),
-                            ") * ",
-                            settingsRef.speedMultiplier.ToString("0.#"),
-                            " = ",
-                            (60000f / (float)num4).ToString("0.#"),
-                            " ",
-                            "TilesPerDay".Translate()
-                        }));
-                    }
-                    __result = num3;
-                }
-                else
+                if (start == end)
                 {
                     return true;
                 }
+                if (explanation != null)
+                {
+                    explanation.Append(caravanTicksPerMoveExplanation);
+                    explanation.AppendLine();
+                }
+                StringBuilder stringBuilder = (explanation != null) ? new StringBuilder() : null;
+                float num = (!perceivedStatic || explanation != null) ? WorldPathGrid.CalculatedMovementDifficultyAt(end, perceivedStatic, ticksAbs, stringBuilder) : Find.WorldPathGrid.PerceivedMovementDifficultyAt(end);
+                float roadMovementDifficultyMultiplier = Find.WorldGrid.GetRoadMovementDifficultyMultiplier(start, end, stringBuilder);
+
+                if (explanation != null)
+                {
+                    explanation.AppendLine();
+                    explanation.Append("TileMovementDifficulty".Translate() + ":");
+                    explanation.AppendLine();
+                    explanation.Append(stringBuilder.ToString().Indented("  "));
+                    explanation.AppendLine();
+                    explanation.Append("  = " + (num * roadMovementDifficultyMultiplier).ToString("0.##"));
+                }
+                int num2 = (int)((float)caravanTicksPerMove * num * roadMovementDifficultyMultiplier);
+                num2 = Mathf.Clamp(num2, 1, 30000);
+                if (settingsRef.speedMultiplier != 1 && explanation != null)
+                {
+                    explanation.AppendLine();
+                    explanation.AppendLine();
+                    explanation.Append("CO_GlobalMultiplierDesc".Translate() + ":");
+                    explanation.AppendLine();
+                    explanation.Append("  = x" + (settingsRef.speedMultiplier).ToString("0.#"));
+                }
+                int num3 = (int)((float)(num2 / settingsRef.speedMultiplier));
+                if (explanation != null)
+                {
+                    explanation.AppendLine();
+                    explanation.AppendLine();
+                    explanation.Append("FinalCaravanMovementSpeed".Translate() + ":");
+                    int num4 = Mathf.CeilToInt((float)num3 / 1f);
+                    explanation.AppendLine();
+                    explanation.Append(string.Concat(new string[]
+                    {
+                        "  (",
+                        (60000f / (float)caravanTicksPerMove).ToString("0.#"),
+                        " / ",
+                        (num * roadMovementDifficultyMultiplier).ToString("0.#"),
+                        ") * ",
+                        settingsRef.speedMultiplier.ToString("0.#"),
+                        " = ",
+                        (60000f / (float)num4).ToString("0.#"),
+                        " ",
+                        "TilesPerDay".Translate()
+                    }));
+                }
+                __result = num3;
                 return false;
             }
         }

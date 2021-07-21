@@ -20,7 +20,7 @@ max capacity, but at a reduced speed relative to the weight carried.</CO_Immobil
 	
 	<CO_ForagingMultiplier>Foraging multiplier</CO_ForagingMultiplier>
 	
-	<CO_AdjustedTo>Adjusted to...</CO_AdjustedTo>
+	<CO_AdjustedTo>Adjusted to...{0}</CO_AdjustedTo>
 	
 	<CO_GlobalMultiplierDesc>Caravan Options multiplier</CO_GlobalMultiplierDesc>
 	<CO_GlobalMultiplier>Caravan Options multiplier (higher is faster)</CO_GlobalMultiplier>
@@ -29,12 +29,13 @@ max capacity, but at a reduced speed relative to the weight carried.</CO_Immobil
 	<CO_SettingsNote>**All settings use default game values unless adjusted.
 Using the "Reset" button at the bottom will restore the default settings.</CO_SettingsNote>
 
-	<CO_ForceNightMove>Travel At Night</CO_ForceNightMove>
+	<CO_ForceNightMove>Force Travel</CO_ForceNightMove>
 	<CO_ForceNightMoveDesc>Forces the caravan to travel at night instead of resting. Caravan members will not recover rest or joy and may become more susceptable to mental breaks.</CO_ForceNightMoveDesc>
 	
 	<CO_CaravanPerformance>Reduce Caravan Processing</CO_CaravanPerformance>
 	<CO_OverrideTickHash>Caravan cycle frequency</CO_OverrideTickHash>
 	
+	<CO_MassCapacityMultiplierExplination>Caravan Mass Multiplier: {0}</CO_MassCapacityMultiplierExplination>
 	
 
 </LanguageData>

@@ -33,6 +33,7 @@ namespace CaravanOptions
             Rect rowRect = UIHelper.GetRowRect(rect1, rowHeight, num);
             Text.Font = GameFont.Small;            
             Rect rowRect1 = UIHelper.GetRowRect(rowRect, rowHeight, num);
+            caravanSpeedMultiplierBuffer = Settings.Instance.caravanSpeedMultiplier.ToString();
             rowRect1.x = rowRect.x; // + rect1.width;
             Widgets.TextFieldNumericLabeled<float>(rowRect1, "CaravanSpeedMultiplier".Translate(), ref Settings.Instance.caravanSpeedMultiplier, ref this.caravanSpeedMultiplierBuffer, .1f, 100f);
             Rect rowRect1ShiftedRight = UIHelper.GetRowRect(rowRect1, rowHeight, num);

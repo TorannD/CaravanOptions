@@ -93,16 +93,17 @@ namespace CaravanOptions
             num++;
             Rect rowRect10 = UIHelper.GetRowRect(rowRect9, rowHeight, num);
             Settings.Instance.foragingMultiplier = Widgets.HorizontalSlider(rowRect10, Settings.Instance.foragingMultiplier, 0.1f, 5f, false, "CO_ForagingMultiplier".Translate() + " " + Settings.Instance.foragingMultiplier, "1", "5", .1f);
-            //num++;
-            //Rect rowRect11 = UIHelper.GetRowRect(rowRect10, rowHeight, num);
-            //Widgets.CheckboxLabeled(rowRect11, "CO_CaravanPerformance".Translate(), ref Settings.Instance.overrideTick, false);
+            num++;
+            Rect rowRect11 = UIHelper.GetRowRect(rowRect10, rowHeight, num);
+            Widgets.CheckboxLabeled(rowRect11, "CO_CaravanSpeedFromPawnSpeed".Translate(), ref Settings.Instance.pawnSpeedMatters, false);
+            TooltipHandler.TipRegion(rowRect11, "CO_CaravanSpeedFromPawnSpeedDesc".Translate());
             //num++;
             //Rect rowRect12 = UIHelper.GetRowRect(rowRect11, rowHeight, num);
             //Settings.Instance.overrideTickHash = Mathf.RoundToInt(Widgets.HorizontalSlider(rowRect12, Settings.Instance.overrideTickHash, 1, 120, false, "CO_OverrideTickHash".Translate() + " " + Settings.Instance.overrideTickHash, "1", "120", 1));
             num++;
             GUI.contentColor = Color.yellow;
             Text.Font = GameFont.Small;
-            Rect rowRect13 = UIHelper.GetRowRect(rowRect10, rowHeight, num);
+            Rect rowRect13 = UIHelper.GetRowRect(rowRect11, rowHeight, num);
             rowRect13.x += +rect1.width - 36f;
             rowRect13.y += 18f;
             rowRect13.width = 64f;
@@ -111,6 +112,7 @@ namespace CaravanOptions
             {
                 Settings.Instance.caravanSpeedMultiplier = 1f;
                 this.caravanSpeedMultiplierBuffer = "001.0";
+                Settings.Instance.pawnSpeedMatters = false;
                 Settings.Instance.dirtPathCost = 0.5f;
                 Settings.Instance.dirtRoadCost = 0.5f;
                 Settings.Instance.stoneRoadCost = 0.5f;

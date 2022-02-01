@@ -166,11 +166,31 @@ namespace CaravanOptions
         [HarmonyPatch(typeof(Caravan_PathFollower), "CostToPayThisTick", null)]
         public class CostToPayThisTick_Base_Patch
         {
-            private static void Postfix(ref float __result)
+            private static void Postfix(Caravan ___caravan, ref float __result)
             {
                 SettingsRef settingsRef = new SettingsRef();
-                __result = __result * settingsRef.speedMultiplier > 0 ? __result * settingsRef.speedMultiplier : __result;
+                float pawnSpeedMult = GetPawnSpeedMultiplier(___caravan);
+                __result = __result * (settingsRef.speedMultiplier > 0 ? __result * settingsRef.speedMultiplier : __result) * pawnSpeedMult;
             }
+        }
+
+        public static float GetPawnSpeedMultiplier(Caravan car)
+        {
+            float pawnSpeedMult = 1f;
+            if (Settings.Instance.pawnSpeedMatters)
+            {
+                if (car != null && car.PawnsListForReading != null && car.PawnsListForReading.Count > 0)
+                {
+                    float totalSpeed = 0;
+                    foreach (Pawn p in car.PawnsListForReading)
+                    {
+                        totalSpeed += p.GetStatValue(StatDefOf.MoveSpeed);
+                    }
+                    float averageSpeed = totalSpeed / car.PawnsListForReading.Count;
+                    pawnSpeedMult = averageSpeed / 4.6f;
+                }
+            }
+            return pawnSpeedMult;
         }
 
         [HarmonyPatch(typeof(Caravan_PathFollower), "CostToMove", new Type[]
@@ -187,10 +207,10 @@ namespace CaravanOptions
         public static class CostToMove_Patch
         {
             [HarmonyPrefix]
-            public static bool CostToMove_Prefix(int caravanTicksPerMove, int start, int end, ref int __result, int? ticksAbs = null, bool perceivedStatic = false, StringBuilder explanation = null, string caravanTicksPerMoveExplanation = null, bool immobile = false)
+            public static bool CostToMove_Prefix(Caravan_PathFollower __instance, int caravanTicksPerMove, int start, int end, ref int __result, int? ticksAbs = null, bool perceivedStatic = false, StringBuilder explanation = null, string caravanTicksPerMoveExplanation = null, bool immobile = false)
             {
                 SettingsRef settingsRef = new SettingsRef();
-
+                
                 if (start == end)
                 {
                     return true;
@@ -213,6 +233,14 @@ namespace CaravanOptions
                     explanation.AppendLine();
                     explanation.Append("  = " + (num * roadMovementDifficultyMultiplier).ToString("0.##"));
                 }
+                float numP = 1f;  
+                if (Settings.Instance.pawnSpeedMatters && explanation != null)
+                {
+                    Caravan car = Find.WorldSelector.SingleSelectedObject as Caravan;
+                    numP = GetPawnSpeedMultiplier(car);
+                    explanation.AppendLine();
+                    explanation.Append("CO_PawnSpeedMultiplier".Translate(numP.ToString("P0")));
+                }
                 int num2 = (int)((float)caravanTicksPerMove * num * roadMovementDifficultyMultiplier);
                 num2 = Mathf.Clamp(num2, 1, 30000);
                 if (settingsRef.speedMultiplier != 1 && explanation != null)
@@ -223,7 +251,7 @@ namespace CaravanOptions
                     explanation.AppendLine();
                     explanation.Append("  = x" + (settingsRef.speedMultiplier).ToString("0.#"));
                 }
-                int num3 = (int)((float)(num2 / settingsRef.speedMultiplier));
+                int num3 = (int)((float)(num2 / (settingsRef.speedMultiplier * numP)));
                 if (explanation != null)
                 {
                     explanation.AppendLine();
@@ -238,6 +266,8 @@ namespace CaravanOptions
                         " / ",
                         (num * roadMovementDifficultyMultiplier).ToString("0.#"),
                         ") * ",
+                        numP.ToString("0.#"),
+                        " * ",
                         settingsRef.speedMultiplier.ToString("0.#"),
                         " = ",
                         (60000f / (float)num4).ToString("0.#"),

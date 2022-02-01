@@ -26,6 +26,10 @@ max capacity, but at a reduced speed relative to the weight carried.</CO_Immobil
 	<CO_GlobalMultiplier>Caravan Options multiplier (higher is faster)</CO_GlobalMultiplier>
 	<CO_RoadMultiplierDesc>road movement cost reduction (smaller is faster)</CO_RoadMultiplierDesc>
 	
+	<CO_CaravanSpeedFromPawnSpeed>Pawn speed matters</CO_CaravanSpeedFromPawnSpeed>
+	<CO_CaravanSpeedFromPawnSpeedDesc>When enabled, the caravan speed is determined by the average speed of all pawns in the caravan. Average move speed for a pawn is 4.6.</CO_CaravanSpeedFromPawnSpeedDesc>
+	<CO_PawnSpeedMultiplier>Average pawn speed multiplier: {0}</CO_PawnSpeedMultiplier>
+	
 	<CO_SettingsNote>**All settings use default game values unless adjusted.
 Using the "Reset" button at the bottom will restore the default settings.</CO_SettingsNote>
 

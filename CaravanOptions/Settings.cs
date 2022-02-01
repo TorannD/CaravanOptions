@@ -8,6 +8,7 @@ namespace CaravanOptions
         public static Settings Instance;
 
         public float caravanSpeedMultiplier = 1f;
+        public bool pawnSpeedMatters = false;
         public float dirtPathCost = .5f;
         public float dirtRoadCost = .5f;
         public float stoneRoadCost = .5f;
@@ -31,6 +32,7 @@ namespace CaravanOptions
         public override void ExposeData()
         {
             Scribe_Values.Look<float>(ref this.caravanSpeedMultiplier, "caravanSpeedMultiplier", 1f, false);
+            Scribe_Values.Look<bool>(ref this.pawnSpeedMatters, "pawnSpeedMatters", false, false);
             Scribe_Values.Look<float>(ref this.dirtPathCost, "dirtPathCost", 0.5f, false);
             Scribe_Values.Look<float>(ref this.dirtRoadCost, "dirtRoadCost", 0.5f, false);
             Scribe_Values.Look<float>(ref this.stoneRoadCost, "stoneRoadCost", 0.5f, false);

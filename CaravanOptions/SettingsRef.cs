@@ -6,6 +6,7 @@ namespace CaravanOptions
     public class SettingsRef
     {
         public float speedMultiplier = Settings.Instance.caravanSpeedMultiplier;
+        public bool pawnSpeedMatters = Settings.Instance.pawnSpeedMatters;
         public float dirtPath = Settings.Instance.dirtPathCost;
         public float dirtRoad = Settings.Instance.dirtRoadCost;
         public float stoneRoad = Settings.Instance.stoneRoadCost;

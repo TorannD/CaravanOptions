@@ -15,8 +15,8 @@ namespace CaravanOptions.ModCheck
             {
                 bool initialized = false;
                 foreach (ModContentPack p in LoadedModManager.RunningMods)
-                { 
-                    if (p.Name == "Roads of the Rim")
+                {
+                    if (p.Name == "Roads of the Rim" || p.Name == "Roads of the Rim (Continued)")
                     {
                         initialized = true;
                     }

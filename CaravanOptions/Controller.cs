@@ -100,13 +100,14 @@ namespace CaravanOptions
             //num++;
             //Rect rowRect12 = UIHelper.GetRowRect(rowRect11, rowHeight, num);
             //Settings.Instance.overrideTickHash = Mathf.RoundToInt(Widgets.HorizontalSlider(rowRect12, Settings.Instance.overrideTickHash, 1, 120, false, "CO_OverrideTickHash".Translate() + " " + Settings.Instance.overrideTickHash, "1", "120", 1));
-            num++;
+            num+=2;
             GUI.contentColor = Color.yellow;
             Text.Font = GameFont.Small;
             Rect rowRect13 = UIHelper.GetRowRect(rowRect11, rowHeight, num);
             rowRect13.x += +rect1.width - 36f;
             rowRect13.y += 18f;
             rowRect13.width = 64f;
+            
             reset = Widgets.ButtonText(rowRect13, "RESET", true, false, true);
             if (reset)
             {

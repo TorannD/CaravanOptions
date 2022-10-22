@@ -39,7 +39,7 @@ namespace CaravanOptions
                 {
                     defaultLabel = label,
                     defaultDesc = desc,
-                    order = 199,
+                    Order = 199,
                     icon = ContentFinder<Texture2D>.Get("UI/ForceNight", true),
                     isActive = (() => this.forceNightMove),
                     toggleAction = delegate

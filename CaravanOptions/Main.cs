@@ -314,7 +314,7 @@ namespace CaravanOptions
                             {
                                 __result = settingsRef.asphaltHighway;
                             }
-                            if (roads[i].road.defName == "GlitterRoad")
+                            if (roads[i].road.defName == "GlitterRoad" && ModCheck.Validate.RoadsOfTheRim.IsInitialized())
                             {
                                 __result = settingsRef.glitterRoad;
                             }

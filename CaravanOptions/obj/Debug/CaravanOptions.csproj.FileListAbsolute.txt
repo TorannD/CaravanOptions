@@ -12,3 +12,4 @@ E:\Programs\Steam\steamapps\common\RimWorld\Mods\CaravanOptions\CaravanOptions\o
 C:\Program Files (x86)\Steam\steamapps\common\RimWorld\Mods\CaravanOptions\v1.1\Assemblies\CaravanOptions.dll
 E:\Programs\Steam\steamapps\common\RimWorld\Mods\CaravanOptions\v1.4\Assemblies\CaravanOptions.dll
 E:\Programs\Steam\steamapps\common\RimWorld\Mods\CaravanOptions\v1.3\Assemblies\CaravanOptions.dll
+E:\Programs\Steam\steamapps\common\RimWorld\Mods\CaravanOptions\v1.5\Assemblies\CaravanOptions.dll
